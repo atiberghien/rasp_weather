@@ -12,7 +12,7 @@
             <td>{{data.temp}}</td>
             <td>{{data.pressure}}</td>
             <td>{{data.indoor_temp}}</td>
-            {% if actuator_state == True %}
+            {% if data.actuator_state == True %}
             <td><a href="/deactivate">Désactiver le ventilateur</a></td>
             {% else %}
             <td><a href="/activate">Activer le ventilateur</a></td>
