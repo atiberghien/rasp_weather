@@ -14,9 +14,10 @@
             <td>{{outdoor.pressure}}</td>
             <td>{{temperature}}</td>
             <td>{{humidity}}</td>
-            {% if actuator == True %}
+            {% if actuator == True or actuator == None %}
             <td><a href="/deactivate">Désactiver le ventilateur</a></td>
-            {% else %}
+            {% endif %}
+            {% if  not actuator %}
             <td><a href="/activate">Activer le ventilateur</a></td>
             {% endif %}
         </tr>
