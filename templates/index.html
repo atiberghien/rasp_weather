@@ -6,13 +6,15 @@
             <td>Température extérieur</td>
             <td>Pression extérieur</td>
             <td>Température interieur</td>
+            <td>Humidité intérieur</td>
             <td></td>
         </thead>
         <tr>
-            <td>{{data.temp}}</td>
-            <td>{{data.pressure}}</td>
-            <td>{{data.indoor_temp}}</td>
-            {% if data.actuator_state == True %}
+            <td>{{outdoor.temp}}</td>
+            <td>{{outdoor.pressure}}</td>
+            <td>{{temperature}}</td>
+            <td>{{humidity}}</td>
+            {% if actuator == True %}
             <td><a href="/deactivate">Désactiver le ventilateur</a></td>
             {% else %}
             <td><a href="/activate">Activer le ventilateur</a></td>

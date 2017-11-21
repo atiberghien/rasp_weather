@@ -2,13 +2,14 @@
 # -*- coding:utf-8 -*-
 
 from flask import Flask, render_template, redirect
-from w1thermsensor import W1ThermSensor
 import requests
 import json
 import RPi.GPIO as GPIO
+import Adafruit_DHT
 
 GPIO.setmode(GPIO.BOARD)
-ACTUATOR_PIN = 8
+ACTUATOR_PIN = 11
+SENSOR_PIN = 14
 GPIO.setup(ACTUATOR_PIN, GPIO.OUT)
 
 app = Flask(__name__)
@@ -16,10 +17,13 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     req = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Florac,fr&units=metric&appid=2249f831ffa31996fe0747849b7a8a21')
-    data = json.loads(req.text)["main"]
-    data["indoor_temp"] = W1ThermSensor().get_temperature()
-    data["actuator_state"] = GPIO.input(ACTUATOR_PIN)
-    return render_template('index.html', data=data)
+    outdoor = json.loads(req.text)["main"]
+
+    sensor = Adafruit_DHT.AM2302
+    humidity, temperature = Adafruit_DHT.read_retry(sensor, SENSOR_PIN)
+    actuator = GPIO.input(ACTUATOR_PIN)
+
+    return render_template('index.html', outdoor=outdoor, humidity=humidity, temperature=temperature, actuator=actuator)
 
 @app.route("/activate")
 def activate():
